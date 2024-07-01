@@ -1,0 +1,40 @@
+C51 COMPILER V9.60.7.0   MAIN                                                              06/27/2024 21:02:18 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\Objects\main.obj
+COMPILER INVOKED BY: E:\Keil_v5\C51\BIN\C51.EXE main.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\main
+                    -.lst) TABS(2) OBJECT(.\Objects\main.obj)
+
+line level    source
+
+   1          #include<reg52.h>
+   2          
+   3          sbit LED1 = P1^0;//sbit指令 全称Special Bit  其中Special意为特殊的；Special Bit翻译为特殊
+             -的比特位，该指令用于对特殊的比特位进行重命名
+   4          
+   5          //这里main函数的返回类型为void ，而不是int ，这是因为，嵌入式程序一旦启动，�
+             -��常情况下就会一直运行，所以没有必要用return 0查看程序是否正常退出；
+   6          //除此之外，嵌入式系统资源十分有限，void类型可以减少相关函数栈帧的开辟，�
+             -��达到节省资源的目的；
+   7          //还有，嵌入式程序几乎都是在硬件上运行，而不是在操作系统上运行，本身就�
+             -�会正常退出。
+   8          void main()
+   9          {
+  10   1        //依据原理图可知，P1^0口接的是LED的负极，所以要让其电位为高电位
+  11   1        LED1 = 0;
+  12   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =      3    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

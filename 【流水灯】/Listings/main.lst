@@ -1,0 +1,49 @@
+C51 COMPILER V9.60.7.0   MAIN                                                              06/28/2024 00:00:55 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\Objects\main.obj
+COMPILER INVOKED BY: E:\Keil_v5\C51\BIN\C51.EXE main.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\main
+                    -.lst) TABS(2) OBJECT(.\Objects\main.obj)
+
+line level    source
+
+   1          #include<reg52.h>
+   2          #include<intrins.h>
+   3          
+   4          typedef unsigned int uint;
+   5          
+   6          void delay(uint x)
+   7          {
+   8   1          uint i = 0;
+   9   1          uint j = 0;
+  10   1          for(;i<x;i++)
+  11   1          {
+  12   2              for(;j<144;j++);
+  13   2          }
+  14   1      }
+  15          
+  16          void main()
+  17          {
+  18   1          uint Data = 0xfe;
+  19   1          while(1)
+  20   1          {
+  21   2              P1 = Data;
+  22   2              Data = _crol_(Data,1);
+  23   2              delay(2000);
+  24   2          }
+  25   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     67    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

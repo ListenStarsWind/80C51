@@ -1,0 +1,3 @@
+".\Objects\main.obj" 
+TO ".\Objects\【点亮开发板上的LED灯】" 
+PRINT(".\Listings\【点亮开发板上的LED灯】.m51") RAMSIZE(256) 

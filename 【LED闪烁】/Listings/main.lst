@@ -1,0 +1,55 @@
+C51 COMPILER V9.60.7.0   MAIN                                                              06/27/2024 22:10:27 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\Objects\main.obj
+COMPILER INVOKED BY: E:\Keil_v5\C51\BIN\C51.EXE main.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\main
+                    -.lst) TABS(2) OBJECT(.\Objects\main.obj)
+
+line level    source
+
+   1          #include<reg52.h>
+   2          
+   3          //类型重命名
+   4          typedef unsigned int unint;
+   5          //注意八位机器中的int与32位64位机器中的int范围不同
+   6          
+   7          //注意形参范围：此处是0-65535；
+   8          //毫秒级延迟函数
+   9          void delay(unint x)
+  10          {
+  11   1          unint i = 0;
+  12   1          unint j = 0;
+  13   1          for(i=0; i<x; i++)
+  14   1          {
+  15   2              for(j=0;j<144; j++);
+  16   2          }
+  17   1      }
+  18          
+  19          void main()
+  20          {
+  21   1          //可千万不要用data呀，因为data在C51中是一个存储类型说明符，用于指定变量�
+             -�储在片内数据存储区。
+  22   1          unint Data = 0xff;
+  23   1          while(1)
+  24   1          {
+  25   2              P1 = Data;
+  26   2              delay(1000);
+  27   2              //笑死了，我第一次写的时候，写成了Data~=Data;
+  28   2              Data = ~Data;
+  29   2          }    
+  30   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     53    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

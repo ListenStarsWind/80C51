@@ -1,0 +1,102 @@
+C51 COMPILER V9.60.7.0   MAIN                                                              06/28/2024 18:21:31 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\Objects\main.obj
+COMPILER INVOKED BY: E:\Keil_v5\C51\BIN\C51.EXE main.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\main
+                    -.lst) TABS(2) OBJECT(.\Objects\main.obj)
+
+line level    source
+
+   1          #include<reg52.h>
+   2          #include<intrins.h>
+   3          
+   4          typedef unsigned int uint;
+   5          typedef unsigned char uchar;
+   6          
+   7          uchar Data[] = {
+   8                              0x3F,0x06,0x5B,0x4f,0x66,
+   9                              0x6D,0x7D,0x07,0x7F,0x6F, 
+  10                              0x77,0x7C,0x39,0x5E,0x79,  
+  11                              0x71,0x76,0x38,0x40,0x00 
+  12                          };
+  13          
+  14          
+  15          
+  16          sbit DU = P2^6;
+  17          sbit WE = P2^7;
+  18          
+  19          typedef enum location
+  20          {
+  21              First,
+  22              Second,
+  23              Third,
+  24              Fourth,
+  25              Fifth,
+  26              Sixth,
+  27              Seventh,
+  28              Eighth   
+  29          }location;
+  30          
+  31          void delay(uint span)
+  32          {
+  33   1          uint i = 0;
+  34   1          uint j = 0;
+  35   1          for(i=0;j<span;i++)
+  36   1          {
+  37   2              for(j=0;j<144;j++);
+  38   2          }
+  39   1      }
+  40          
+  41          void DigitalTubeInitialization()
+  42          {
+  43   1          //要知道为什么置为0对应数码管就会选中
+  44   1          //这里用的是八位共阴极数码管，也就是说每个数码管中的八个LED阴极是接在�
+             -��起的，
+  45   1          //当位选锁存器开启后，八个P0端口相当于依据高低位分别与八个数码管的阴�
+             -�相连
+  46   1          //而LED的点亮条件是阳极接高电位，阴极接低电位；
+  47   1          //此时，若把对应IO口置为高电位，则阴极就是高电位，这样，无论阳极电位�
+             -�何，LED都不会被点亮
+  48   1          P0 = 0xff;
+  49   1          WE = 1;
+  50   1          WE = 0;
+  51   1      }
+C51 COMPILER V9.60.7.0   MAIN                                                              06/28/2024 18:21:31 PAGE 2   
+
+  52          
+  53          void display(uint value,location place)
+  54          {
+  55   1          uchar position = 0xfe;
+  56   1          WE = 1;
+  57   1          P0 = _crol_(position,(uint)place);
+  58   1          WE = 0;
+  59   1          P0 = Data[value];
+  60   1          DU = 1;
+  61   1          DU = 0;
+  62   1      }
+  63          
+  64          void main()
+  65          {
+  66   1          DigitalTubeInitialization();
+  67   1          display(1, Eighth);
+  68   1          //第一次写没有带while(1);结果发现一些本不该发光的的LED有辉光，后来稍微想�
+             -��一下，意识到有辉光是因为嵌入式程序是反复运行的，
+  69   1          //如果不加while(1);数码管立刻又会被初始化，而程序运行又很快，残留的视觉�
+             -��在一起就有了辉光
+  70   1          while(1);  
+  71   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     89    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     20    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

@@ -1,0 +1,140 @@
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                    06/28/2024  18:21:31  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22.4.0, INVOKED BY:
+E:\KEIL_V5\C51\BIN\BL51.EXE .\Objects\main.obj TO .\Objects\【数码管静态显示】 PRINT (.\Listings\【数码管静态显示】.m51)
+>>  RAMSIZE (256)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  .\Objects\main.obj (MAIN)
+  E:\KEIL_V5\C51\LIB\C51S.LIB (?C_STARTUP)
+  E:\KEIL_V5\C51\LIB\C51S.LIB (?C_INIT)
+
+
+LINK MAP OF MODULE:  .\Objects\【数码管静态显示】 (MAIN)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     0014H     UNIT         ?DT?MAIN
+            IDATA   001CH     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+            CODE    0003H     008CH     UNIT         ?C_C51STARTUP
+            CODE    008FH     0022H     UNIT         ?PR?_DELAY?MAIN
+            CODE    00B1H     0021H     UNIT         ?PR?_DISPLAY?MAIN
+            CODE    00D2H     0017H     UNIT         ?C_INITSEG
+            CODE    00E9H     000EH     UNIT         ?PR?MAIN?MAIN
+            CODE    00F7H     0008H     UNIT         ?PR?DIGITALTUBEINITIALIZATION?MAIN
+
+
+
+OVERLAY MAP OF MODULE:   .\Objects\【数码管静态显示】 (MAIN)
+
+
+SEGMENT
+  +--> CALLED SEGMENT
+---------------------
+?C_C51STARTUP
+  +--> ?PR?MAIN?MAIN
+  +--> ?C_INITSEG
+
+?PR?MAIN?MAIN
+  +--> ?PR?DIGITALTUBEINITIALIZATION?MAIN
+  +--> ?PR?_DISPLAY?MAIN
+
+
+
+SYMBOL TABLE OF MODULE:  .\Objects\【数码管静态显示】 (MAIN)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        MAIN
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  06/28/2024  18:21:31  PAGE 2
+
+
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0080H         PUBLIC        P0
+  D:0090H         PUBLIC        P1
+  D:00A0H         PUBLIC        P2
+  D:00B0H         PUBLIC        P3
+  D:00A8H         PUBLIC        IE
+  C:008FH         PUBLIC        _delay
+  B:00A0H.6       PUBLIC        DU
+  D:00B8H         PUBLIC        IP
+  B:00A0H.7       PUBLIC        WE
+  C:00E9H         PUBLIC        main
+  C:00F7H         PUBLIC        DigitalTubeInitialization
+  D:0098H         PUBLIC        SCON
+  D:0088H         PUBLIC        TCON
+  D:00C8H         PUBLIC        T2CON
+  C:00B1H         PUBLIC        _display
+  D:00D0H         PUBLIC        PSW
+  D:0008H         PUBLIC        Data
+  -------         PROC          _DELAY
+  D:0006H         SYMBOL        span
+  -------         DO            
+  D:0004H         SYMBOL        i
+  D:0002H         SYMBOL        j
+  -------         ENDDO         
+  C:008FH         LINE#         31
+  C:008FH         LINE#         32
+  C:008FH         LINE#         33
+  C:0092H         LINE#         34
+  C:0094H         LINE#         35
+  C:009BH         LINE#         36
+  C:009BH         LINE#         37
+  C:00A9H         LINE#         38
+  C:00B0H         LINE#         39
+  -------         ENDPROC       _DELAY
+  -------         PROC          DIGITALTUBEINITIALIZATION
+  C:00F7H         LINE#         41
+  C:00F7H         LINE#         42
+  C:00F7H         LINE#         48
+  C:00FAH         LINE#         49
+  C:00FCH         LINE#         50
+  C:00FEH         LINE#         51
+  -------         ENDPROC       DIGITALTUBEINITIALIZATION
+  -------         PROC          _DISPLAY
+  D:0002H         SYMBOL        value
+  D:0005H         SYMBOL        place
+  -------         DO            
+  D:0007H         SYMBOL        position
+  -------         ENDDO         
+  C:00B1H         LINE#         53
+  C:00B5H         LINE#         54
+  C:00B5H         LINE#         55
+  C:00B7H         LINE#         56
+  C:00B9H         LINE#         57
+  C:00C4H         LINE#         58
+  C:00C6H         LINE#         59
+  C:00CDH         LINE#         60
+  C:00CFH         LINE#         61
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  06/28/2024  18:21:31  PAGE 3
+
+
+  C:00D1H         LINE#         62
+  -------         ENDPROC       _DISPLAY
+  -------         PROC          MAIN
+  C:00E9H         LINE#         64
+  C:00E9H         LINE#         65
+  C:00E9H         LINE#         66
+  C:00ECH         LINE#         67
+  C:00F5H         LINE#         70
+  -------         ENDPROC       MAIN
+  -------         ENDMOD        MAIN
+
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DELAY?MAIN
+
+Program Size: data=29.0 xdata=0 code=255
+LINK/LOCATE RUN COMPLETE.  1 WARNING(S),  0 ERROR(S)
