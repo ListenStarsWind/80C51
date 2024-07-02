@@ -3,7 +3,7 @@
         {
             "name": "Target 1",
             "includePath": [
-                "e:\\keil5新建工程2.0\\mcu\\51\\【独立键盘】"
+                "e:\\keil5新建工程2.0\\mcu\\51\\80C51\\【独立键盘】"
             ],
             "defines": [
                 "__C51__",

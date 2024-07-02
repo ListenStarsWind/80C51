@@ -1,4 +1,4 @@
-C51 COMPILER V9.60.7.0   MAIN                                                              06/29/2024 19:29:40 PAGE 1   
+C51 COMPILER V9.60.7.0   MAIN                                                              07/02/2024 21:19:34 PAGE 1   
 
 
 C51 COMPILER V9.60.7.0, COMPILATION OF MODULE MAIN
@@ -41,7 +41,7 @@ line level    source
   31          {
   32   1          uint i = 0;
   33   1          uint j = 0;
-  34   1          for(i=0;j<span;i++)
+  34   1          for(i=0;i<span;i++)
   35   1          {
   36   2              for(j=0;j<144;j++);
   37   2          }
@@ -62,7 +62,7 @@ line level    source
   49   1          WE = 0;
   50   1      }
   51          
-C51 COMPILER V9.60.7.0   MAIN                                                              06/29/2024 19:29:40 PAGE 2   
+C51 COMPILER V9.60.7.0   MAIN                                                              07/02/2024 21:19:34 PAGE 2   
 
   52          
   53          #define DEBUG
@@ -101,8 +101,8 @@ line level    source
   86   1          uint third = (uint)(digit(&number) - '0');
   87   1          uint second = (uint)(digit(&number) - '0');
   88   1          uint first = (uint)(digit(&number) - '0');  
-  89   1          uchar i = 0;
-  90   1          uchar j = 0;
+  89   1          uint i = 0;
+  90   1          uint j = 0;
   91   1          for(i=0;i<3000;i++)
   92   1          {
   93   2              for(j=0;j<144;j++)
@@ -126,23 +126,23 @@ line level    source
               }
               
               #endif
-C51 COMPILER V9.60.7.0   MAIN                                                              06/29/2024 19:29:40 PAGE 3   
+C51 COMPILER V9.60.7.0   MAIN                                                              07/02/2024 21:19:34 PAGE 3   
 
  114          
  115          void main()
  116          {
- 117   1          SegmentDisplayInit();
- 118   1          Display(65536);
+ 117   1          SegmentDisplayInit();//数码管初始化函数
+ 118   1          Display(65536);//八位数码管显示函数
  119   1          while(1);
  120   1      }
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    373    ----
+   CODE SIZE        =    394    ----
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----
-   DATA SIZE        =     20      22
+   DATA SIZE        =     20      26
    IDATA SIZE       =   ----    ----
    BIT SIZE         =   ----    ----
 END OF MODULE INFORMATION.

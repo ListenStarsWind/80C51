@@ -86,8 +86,8 @@ void Display(ulint number)
     uint third = (uint)(digit(&number) - '0');
     uint second = (uint)(digit(&number) - '0');
     uint first = (uint)(digit(&number) - '0');  
-    uchar i = 0;
-    uchar j = 0;
+    uint i = 0;
+    uint j = 0;
     for(i=0;i<3000;i++)
     {
         for(j=0;j<144;j++)

@@ -1,4 +1,4 @@
-C51 COMPILER V9.60.7.0   MAIN                                                              06/30/2024 21:06:56 PAGE 1   
+C51 COMPILER V9.60.7.0   MAIN                                                              07/02/2024 21:45:00 PAGE 1   
 
 
 C51 COMPILER V9.60.7.0, COMPILATION OF MODULE MAIN
@@ -62,7 +62,7 @@ line level    source
   52          #define DELAY//打开使用延迟法判断按键状态，关闭使用计数法判断按键状态
   53          
   54          #ifdef DELAY
-C51 COMPILER V9.60.7.0   MAIN                                                              06/30/2024 21:06:56 PAGE 2   
+C51 COMPILER V9.60.7.0   MAIN                                                              07/02/2024 21:45:00 PAGE 2   
 
   55          
   56          void iskey(ulint* num)
@@ -92,6 +92,7 @@ line level    source
               void iskey(ulint* num)
               {
                   uchar count = 0x00;
+                  uchar maxloop = 0x00;
                   while(count < 0x05)
                   {
                       if(Key2 == 0)
@@ -101,8 +102,13 @@ line level    source
                       else
                       {
                           count = 0;
+                          maxloop++;
                       }
-                      delay(1);
+                      delay(4);
+                      if(maxloop == 0x05)
+                      {
+                          break;
+                      }
                   }
                   if(count == 0x05)
                   {
@@ -119,89 +125,94 @@ line level    source
                       else
                       {
                           count = 0;
+                          maxloop++;
+C51 COMPILER V9.60.7.0   MAIN                                                              07/02/2024 21:45:00 PAGE 3   
+
                       }
-                      delay(1);
+                      delay(4);
+                      if(maxloop == 0x05)
+                      {
+                          break;
+                      }
                   }
                   if(count == 0x05)
                   {
                       (*num)--;
                   }
-C51 COMPILER V9.60.7.0   MAIN                                                              06/30/2024 21:06:56 PAGE 3   
-
               }
               
               #endif
- 120          
- 121          uchar digit(ulint* value)
- 122          {
- 123   1          uchar ret = 0;
- 124   1          ret = *value % 10 + 48;
- 125   1          *value = *value / 10;
- 126   1          return ret;
- 127   1      }
- 128          
- 129          void stdout(uint value,sequence serial)
- 130          {
- 131   1          uchar position = 0xfe;
- 132   1          P0 = 0x00;
- 133   1          DU = 1;
- 134   1          DU = 0;
- 135   1          P0 = _crol_(position,(uint)serial);
- 136   1          WE = 1;
- 137   1          WE = 0;
- 138   1          P0 = Data[value];
- 139   1          DU = 1;
- 140   1          DU = 0;
- 141   1      }
- 142          
- 143          void Display(ulint number)
- 144          {
- 145   1          uint eighth = (uint)(digit(&number) - '0');
- 146   1          uint seventh = (uint)(digit(&number) - '0');
- 147   1          uint sixth = (uint)(digit(&number) - '0');
- 148   1          uint fifth = (uint)(digit(&number) - '0');
- 149   1          uint fourth = (uint)(digit(&number) - '0');
- 150   1          uint third = (uint)(digit(&number) - '0');
- 151   1          uint second = (uint)(digit(&number) - '0');
- 152   1          uint first = (uint)(digit(&number) - '0');  
- 153   1          uchar i = 0;
- 154   1          uchar j = 0;
- 155   1          for(i=0;i<3000;i++)
- 156   1          {
- 157   2              for(j=0;j<144;j++)
- 158   2              {
- 159   3                      stdout(first,First);
- 160   3                      stdout(second,Second);
- 161   3                      stdout(third,Third);
- 162   3                      stdout(fourth,Fourth);
- 163   3                      stdout(fifth,Fifth);
- 164   3                      stdout(sixth,Sixth);
- 165   3                      stdout(seventh,Seventh);
- 166   3                      stdout(eighth,Eighth);
- 167   3              }
- 168   2          }
- 169   1      }
- 170          
- 171          void main()
- 172          {
- 173   1          ulint number = 65534;
- 174   1          SegmentDisplayInit();
- 175   1          while(1)
- 176   1          {
- 177   2              iskey(&number);
- 178   2              Display(number);
-C51 COMPILER V9.60.7.0   MAIN                                                              06/30/2024 21:06:56 PAGE 4   
+ 131          
+ 132          uchar digit(ulint* value)
+ 133          {
+ 134   1          uchar ret = 0;
+ 135   1          ret = *value % 10 + 48;
+ 136   1          *value = *value / 10;
+ 137   1          return ret;
+ 138   1      }
+ 139          
+ 140          void stdout(uint value,sequence serial)
+ 141          {
+ 142   1          uchar position = 0xfe;
+ 143   1          P0 = 0x00;
+ 144   1          DU = 1;
+ 145   1          DU = 0;
+ 146   1          P0 = _crol_(position,(uint)serial);
+ 147   1          WE = 1;
+ 148   1          WE = 0;
+ 149   1          P0 = Data[value];
+ 150   1          DU = 1;
+ 151   1          DU = 0;
+ 152   1      }
+ 153          
+ 154          void Display(ulint number)
+ 155          {
+ 156   1          uint eighth = (uint)(digit(&number) - '0');
+ 157   1          uint seventh = (uint)(digit(&number) - '0');
+ 158   1          uint sixth = (uint)(digit(&number) - '0');
+ 159   1          uint fifth = (uint)(digit(&number) - '0');
+ 160   1          uint fourth = (uint)(digit(&number) - '0');
+ 161   1          uint third = (uint)(digit(&number) - '0');
+ 162   1          uint second = (uint)(digit(&number) - '0');
+ 163   1          uint first = (uint)(digit(&number) - '0');  
+ 164   1          uint i = 0;
+ 165   1          uint j = 0;
+ 166   1          for(i=0;i<3000;i++)
+ 167   1          {
+ 168   2              for(j=0;j<144;j++)
+ 169   2              {
+ 170   3                      stdout(first,First);
+ 171   3                      stdout(second,Second);
+ 172   3                      stdout(third,Third);
+ 173   3                      stdout(fourth,Fourth);
+ 174   3                      stdout(fifth,Fifth);
+ 175   3                      stdout(sixth,Sixth);
+ 176   3                      stdout(seventh,Seventh);
+ 177   3                      stdout(eighth,Eighth);
+ 178   3              }
+C51 COMPILER V9.60.7.0   MAIN                                                              07/02/2024 21:45:00 PAGE 4   
 
  179   2          }
  180   1      }
+ 181          
+ 182          void main()
+ 183          {
+ 184   1          ulint number = 65534;
+ 185   1          SegmentDisplayInit();
+ 186   1          while(1)
+ 187   1          {
+ 188   2              iskey(&number);
+ 189   2              Display(number);
+ 190   2          }
+ 191   1      }
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    483    ----
+   CODE SIZE        =    506    ----
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----
-   DATA SIZE        =     20      29
+   DATA SIZE        =     20      33
    IDATA SIZE       =   ----    ----
    BIT SIZE         =   ----    ----
 END OF MODULE INFORMATION.

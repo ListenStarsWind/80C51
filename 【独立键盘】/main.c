@@ -80,6 +80,7 @@ void iskey(ulint* num)
 void iskey(ulint* num)
 {
     uchar count = 0x00;
+    uchar maxloop = 0x00;
     while(count < 0x05)
     {
         if(Key2 == 0)
@@ -89,8 +90,13 @@ void iskey(ulint* num)
         else
         {
             count = 0;
+            maxloop++;
         }
-        delay(1);
+        delay(4);
+        if(maxloop == 0x05)
+        {
+            break;
+        }
     }
     if(count == 0x05)
     {
@@ -107,8 +113,13 @@ void iskey(ulint* num)
         else
         {
             count = 0;
+            maxloop++;
         }
-        delay(1);
+        delay(4);
+        if(maxloop == 0x05)
+        {
+            break;
+        }
     }
     if(count == 0x05)
     {
@@ -150,8 +161,8 @@ void Display(ulint number)
     uint third = (uint)(digit(&number) - '0');
     uint second = (uint)(digit(&number) - '0');
     uint first = (uint)(digit(&number) - '0');  
-    uchar i = 0;
-    uchar j = 0;
+    uint i = 0;
+    uint j = 0;
     for(i=0;i<3000;i++)
     {
         for(j=0;j<144;j++)
