@@ -121,7 +121,7 @@ void display()
     }
 }
 
-void timeer0() interrupt 1
+void timer0() interrupt 1
 {
     TH0 =0XFC;
     TL0= 0X67;
