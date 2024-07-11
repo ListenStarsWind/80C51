@@ -59,8 +59,8 @@ void main()
 {
     EA =1;
     ET0 = 1;
-    TH0 =0XFC;
-    TL0= 0X67;
+    TH0 =0XFB;
+    TL0= 0X0F;
     TR0 = 1;
 
     P0 = 0xff;
@@ -74,6 +74,7 @@ void main()
             delay(10);
             if(Key2 == 0)
             {
+                LED = 0 ;
                 if(number < 99999999)
                 {
                     number++;
@@ -82,6 +83,7 @@ void main()
                 {
                     ;
                 }
+                LED = 1;
                 while(!Key2);
             }
         }
@@ -90,6 +92,7 @@ void main()
             delay(10);
             if(Key3 == 0)
             {
+                LED = 0;
                 if(number > 0)
                 {
                     number--;
@@ -98,6 +101,7 @@ void main()
                 {
                     ;
                 }
+                LED =1;
                 while(!Key3);
             }
         }
@@ -107,23 +111,27 @@ void main()
 void display()
 {
     static sequence i =  First;
+    static uchar position = 0xfe;
+	DU = 1;
     P0 = 0x00;
+	DU = 0;
     switch(i)
     {
-        CASE(First,DU =1; P0 = Data[number/10000000];DU = 0;i = Second;);
-        CASE(Second,DU =1; P0 = Data[number%10000000/1000000];DU = 0;i = Third;);
-        CASE(Third,DU =1; P0 = Data[number%1000000/100000];DU = 0;i = Fourth;);
-        CASE(Fourth,DU =1; P0 = Data[number%100000/10000];DU = 0;i = Fifth;);
-        CASE(Fifth,DU =1; P0 = Data[number%10000/1000];DU = 0;i = Sixth;);
-        CASE(Sixth,DU =1; P0 = Data[number%1000/100];DU = 0;i = Seventh;);
-        CASE(Seventh,DU =1; P0 = Data[number%100/10];DU = 0;i = Eighth;);
-        CASE(Eighth,DU =1; P0 = Data[number%10];DU = 0;i = First;);
+        CASE(First,DU =1; P0 = Data[number/10000000];DU = 0;P0 = _crol_(position,i);WE = 1; WE = 0;i = Second;);
+        CASE(Second,DU =1; P0 = Data[number%10000000/1000000];DU = 0;P0 = _crol_(position,i);WE = 1; WE = 0;i = Third;);
+        CASE(Third,DU =1; P0 = Data[number%1000000/100000];DU = 0;P0 = _crol_(position,i);WE = 1; WE = 0;i = Fourth;);
+        CASE(Fourth,DU =1; P0 = Data[number%100000/10000];DU = 0;P0 = _crol_(position,i);WE = 1; WE = 0;i = Fifth;);
+        CASE(Fifth,DU =1; P0 = Data[number%10000/1000];DU = 0;P0 = _crol_(position,i);WE = 1; WE = 0;i = Sixth;);
+        CASE(Sixth,DU =1; P0 = Data[number%1000/100];DU = 0;P0 = _crol_(position,i);WE = 1; WE = 0;i = Seventh;);
+        CASE(Seventh,DU =1; P0 = Data[number%100/10];DU = 0;P0 = _crol_(position,i);WE = 1; WE = 0;i = Eighth;);
+        CASE(Eighth,DU =1; P0 = Data[number%10];DU = 0;P0 = _crol_(position,i);WE = 1; WE = 0;i = First;);
     }
 }
 
+
 void timer0() interrupt 1
 {
-    TH0 =0XFC;
-    TL0= 0X67;
+    TH0 =0XFB;
+    TL0= 0X0F;
     display();
 }

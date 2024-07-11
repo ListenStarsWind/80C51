@@ -1,4 +1,4 @@
-C51 COMPILER V9.60.7.0   FUCKYOU                                                           07/11/2024 12:09:39 PAGE 1   
+C51 COMPILER V9.60.7.0   FUCKYOU                                                           07/11/2024 17:14:47 PAGE 1   
 
 
 C51 COMPILER V9.60.7.0, COMPILATION OF MODULE FUCKYOU
@@ -62,7 +62,7 @@ line level    source
   52   1          for(i=0;i<span;i++)
   53   1          {
   54   2              for(j=0;j<144;j++);
-C51 COMPILER V9.60.7.0   FUCKYOU                                                           07/11/2024 12:09:39 PAGE 2   
+C51 COMPILER V9.60.7.0   FUCKYOU                                                           07/11/2024 17:14:47 PAGE 2   
 
   55   2          }
   56   1      }
@@ -71,8 +71,8 @@ line level    source
   59          {
   60   1          EA =1;
   61   1          ET0 = 1;
-  62   1          TH0 =0XFC;
-  63   1          TL0= 0X67;
+  62   1          TH0 =0XFB;
+  63   1          TL0= 0X0F;
   64   1          TR0 = 1;
   65   1      
   66   1          P0 = 0xff;
@@ -86,69 +86,84 @@ line level    source
   74   3                  delay(10);
   75   3                  if(Key2 == 0)
   76   3                  {
-  77   4                      if(number < 99999999)
-  78   4                      {
-  79   5                          number++;
-  80   5                      }
-  81   4                      else
-  82   4                      {
-  83   5                          ;
-  84   5                      }
-  85   4                      while(!Key2);
-  86   4                  }
-  87   3              }
-  88   2              if(Key3 == 0)
-  89   2              {
-  90   3                  delay(10);
-  91   3                  if(Key3 == 0)
-  92   3                  {
-  93   4                      if(number > 0)
-  94   4                      {
-  95   5                          number--;
-  96   5                      }
-  97   4                      else
-  98   4                      {
-  99   5                          ;
- 100   5                      }
- 101   4                      while(!Key3);
- 102   4                  }
- 103   3              }
- 104   2          }
- 105   1      }
- 106          
- 107          void display()
- 108          {
- 109   1          static sequence i =  First;
- 110   1          P0 = 0x00;
- 111   1          switch(i)
- 112   1          {
- 113   2              CASE(First,DU =1; P0 = Data[number/10000000];DU = 0;i = Second;);
- 114   2              CASE(Second,DU =1; P0 = Data[number%10000000/1000000];DU = 0;i = Third;);
- 115   2              CASE(Third,DU =1; P0 = Data[number%1000000/100000];DU = 0;i = Fourth;);
- 116   2              CASE(Fourth,DU =1; P0 = Data[number%100000/10000];DU = 0;i = Fifth;);
-C51 COMPILER V9.60.7.0   FUCKYOU                                                           07/11/2024 12:09:39 PAGE 3   
+  77   4                      LED = 0 ;
+  78   4                      if(number < 99999999)
+  79   4                      {
+  80   5                          number++;
+  81   5                      }
+  82   4                      else
+  83   4                      {
+  84   5                          ;
+  85   5                      }
+  86   4                      LED = 1;
+  87   4                      while(!Key2);
+  88   4                  }
+  89   3              }
+  90   2              if(Key3 == 0)
+  91   2              {
+  92   3                  delay(10);
+  93   3                  if(Key3 == 0)
+  94   3                  {
+  95   4                      LED = 0;
+  96   4                      if(number > 0)
+  97   4                      {
+  98   5                          number--;
+  99   5                      }
+ 100   4                      else
+ 101   4                      {
+ 102   5                          ;
+ 103   5                      }
+ 104   4                      LED =1;
+ 105   4                      while(!Key3);
+ 106   4                  }
+ 107   3              }
+ 108   2          }
+ 109   1      }
+ 110          
+ 111          void display()
+ 112          {
+ 113   1          static sequence i =  First;
+ 114   1          static uchar position = 0xfe;
+ 115   1          DU = 1;
+ 116   1          P0 = 0x00;
+C51 COMPILER V9.60.7.0   FUCKYOU                                                           07/11/2024 17:14:47 PAGE 3   
 
- 117   2              CASE(Fifth,DU =1; P0 = Data[number%10000/1000];DU = 0;i = Sixth;);
- 118   2              CASE(Sixth,DU =1; P0 = Data[number%1000/100];DU = 0;i = Seventh;);
- 119   2              CASE(Seventh,DU =1; P0 = Data[number%100/10];DU = 0;i = Eighth;);
- 120   2              CASE(Eighth,DU =1; P0 = Data[number%10];DU = 0;i = First;);
- 121   2          }
- 122   1      }
- 123          
- 124          void timer0() interrupt 1
- 125          {
- 126   1          TH0 =0XFC;
- 127   1          TL0= 0X67;
- 128   1          display();
+ 117   1          DU = 0;
+ 118   1          switch(i)
+ 119   1          {
+ 120   2              CASE(First,DU =1; P0 = Data[number/10000000];DU = 0;P0 = _crol_(position,i);WE = 1; WE = 0;i = Sec
+             -ond;);
+ 121   2              CASE(Second,DU =1; P0 = Data[number%10000000/1000000];DU = 0;P0 = _crol_(position,i);WE = 1; WE = 
+             -0;i = Third;);
+ 122   2              CASE(Third,DU =1; P0 = Data[number%1000000/100000];DU = 0;P0 = _crol_(position,i);WE = 1; WE = 0;i
+             - = Fourth;);
+ 123   2              CASE(Fourth,DU =1; P0 = Data[number%100000/10000];DU = 0;P0 = _crol_(position,i);WE = 1; WE = 0;i 
+             -= Fifth;);
+ 124   2              CASE(Fifth,DU =1; P0 = Data[number%10000/1000];DU = 0;P0 = _crol_(position,i);WE = 1; WE = 0;i = S
+             -ixth;);
+ 125   2              CASE(Sixth,DU =1; P0 = Data[number%1000/100];DU = 0;P0 = _crol_(position,i);WE = 1; WE = 0;i = Sev
+             -enth;);
+ 126   2              CASE(Seventh,DU =1; P0 = Data[number%100/10];DU = 0;P0 = _crol_(position,i);WE = 1; WE = 0;i = Eig
+             -hth;);
+ 127   2              CASE(Eighth,DU =1; P0 = Data[number%10];DU = 0;P0 = _crol_(position,i);WE = 1; WE = 0;i = First;);
+ 128   2          }
  129   1      }
+ 130          
+ 131          
+ 132          void timer0() interrupt 1
+ 133          {
+ 134   1          TH0 =0XFB;
+ 135   1          TL0= 0X0F;
+ 136   1          display();
+ 137   1      }
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    653    ----
+   CODE SIZE        =    801    ----
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----
-   DATA SIZE        =     25    ----
+   DATA SIZE        =     26    ----
    IDATA SIZE       =   ----    ----
    BIT SIZE         =   ----    ----
 END OF MODULE INFORMATION.
