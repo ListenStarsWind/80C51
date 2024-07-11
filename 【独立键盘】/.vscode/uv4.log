@@ -1,6 +1,6 @@
 Build target 'Target 1'
 linking...
-Program Size: data=59.0 xdata=0 code=1024
+Program Size: data=34.0 xdata=0 code=1054
 creating hex file from ".\Objects\¡¾¶ÀÁ¢¼üÅÌ¡¿"...
 ".\Objects\¡¾¶ÀÁ¢¼üÅÌ¡¿" - 0 Error(s), 0 Warning(s).
-Build Time Elapsed:  00:00:01
+Build Time Elapsed:  00:00:00

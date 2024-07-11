@@ -1,23 +1,27 @@
-#define BUG
-#ifndef BUG
+#ifdef BUG
 
 #include<reg52.h>
 #include<intrins.h>
 
+//类型重命名
 typedef unsigned char uchar;
 typedef unsigned int uint;
 typedef unsigned long ulint;
 
+//按键比特位命名
 sbit Key2 = P3^0;
 sbit Key3 = P3^1;
 sbit Key4 = P3^2;
 sbit Key5 = P3^3;
 
+//LED比特位命名
 sbit LED  = P1^0;
 
+//数码管段选位选比特位命名
 sbit DU = P2^6;
 sbit WE = P2^7;
 
+//共阴极数码管字符码
 uchar Data[] = {
                     0x3F,0x06,0x5B,0x4f,0x66,
                     0x6D,0x7D,0x07,0x7F,0x6F, 
@@ -36,6 +40,9 @@ typedef enum sequence
     Seventh,
     Eighth   
 }sequence;
+
+//显示
+ulint number = 65534;
 
 void delay(uint span)
 {
@@ -172,10 +179,7 @@ void Display(ulint number)
     uint first = (uint)(digit(&number) - '0');  
     uint i = 0;
     uint j = 0;
-    for(i=0;i<100;i++)
-    {
-        for(j=0;j<144;j++)
-        {
+  
                 stdout(first,First);
                 stdout(second,Second);
                 stdout(third,Third);
@@ -183,22 +187,29 @@ void Display(ulint number)
                 stdout(fifth,Fifth);
                 stdout(sixth,Sixth);
                 stdout(seventh,Seventh);
-                stdout(eighth,Eighth);
-        }
-    }
+   
 }
 
 void main()
 {
-    ulint number = 65534;
+    EA = 1;//使能总中断
+    TMOD  = 0x01;//设置TO为模式一
+    TH0 = 0xfc;
+    TL0 = 0x67;//一毫秒预装载
+    ET0 = 1;//使能T0中断
     SegmentDisplayInit();
+    TR0 = 1;//启动T0
     while(1)
     {
-        LED = 0;
         iskey(&number);
-        Display(number);
-        delay(20);
-        LED =1;
     }
 }
+
+void timer0() interrupt 1
+{
+    TH0 = 0xfc;
+    TL0 = 0x67;
+    Display(number);
+}
+
 #endif

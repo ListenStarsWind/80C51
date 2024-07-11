@@ -67,3 +67,8 @@ void isnull(void* ptr)
         ;
     }
 }
+
+int main()
+{
+    ;
+}
