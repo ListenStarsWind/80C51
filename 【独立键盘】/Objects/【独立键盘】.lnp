@@ -1,3 +1,4 @@
-".\Objects\fuckyou.obj" 
+".\Objects\fuckyou.obj",
+".\Objects\prefer.obj" 
 TO ".\Objects\°æ∂¿¡¢º¸≈Ã°ø" 
 PRINT(".\Listings\°æ∂¿¡¢º¸≈Ã°ø.m51") RAMSIZE(256) 

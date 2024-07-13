@@ -1,3 +1,6 @@
+#include"choose.h"
+#ifdef CHOOSE
+
 #include<reg52.h>
 #include<intrins.h>
 
@@ -135,3 +138,4 @@ void timer0() interrupt 1
     TL0= 0X0F;
     display();
 }
+#endif
