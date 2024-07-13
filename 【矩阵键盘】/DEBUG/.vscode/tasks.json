@@ -1,0 +1,31 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "type": "shell",
+            "label": "C/C++: gcc.exe 生成项目文件",
+            "command":"E:\\cygwin64\\bin\\gcc.exe",
+            "args": [
+                "-fdiagnostics-color=always",
+                "-I${workspaceFolder}",
+                "-g",
+                "${workspaceFolder}/*.c",  // 包含项目文件夹下的所有 .c 文件
+                "-o",
+                "${workspaceFolder}\\output\\test.exe",  // 输出文件名
+                "-mconsole",  // 使用控制台子系统
+                "-static"  // 使用静态链接
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true //用于指定当前任务是否是默认任务
+            },
+            "detail": "编译器: E:\\cygwin64\\bin\\gcc.exe"
+        }
+    ]
+}

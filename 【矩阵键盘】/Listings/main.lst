@@ -1,0 +1,155 @@
+C51 COMPILER V9.60.7.0   MAIN                                                              07/13/2024 18:05:37 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\Objects\main.obj
+COMPILER INVOKED BY: E:\Keil_v5\C51\BIN\C51.EXE main.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\main
+                    -.lst) TABS(2) OBJECT(.\Objects\main.obj)
+
+line level    source
+
+   1          #include <reg52.h>
+   2          
+   3          sbit DU = P2 ^ 6;
+   4          sbit WE = P2 ^ 7;
+   5          
+   6          // Rows and columns
+   7          sbit writekey1 = P3 ^ 0;
+   8          sbit writekey2 = P3 ^ 1;
+   9          sbit writekey3 = P3 ^ 2;
+  10          sbit writekey4 = P3 ^ 3;
+  11          sbit readkey1 = P3 ^ 4;
+  12          sbit readkey2 = P3 ^ 5;
+  13          sbit readkey3 = P3 ^ 6;
+  14          sbit readkey4 = P3 ^ 7;
+  15          
+  16          typedef unsigned char uchar;
+  17          typedef unsigned int uint;
+  18          
+  19          uchar displayCodes[] = {
+  20              0x3F, 0x06, 0x5B, 0x4f, 0x66,
+  21              0x6D, 0x7D, 0x07, 0x7F, 0x6F,
+  22              0x77, 0x7C, 0x39, 0x5E, 0x79,
+  23              0x71, 0x76, 0x38, 0x40, 0x00};
+  24          
+  25          uchar newkey[4][4] = {
+  26              1, 1, 1, 1,
+  27              1, 1, 1, 1,
+  28              1, 1, 1, 1,
+  29              1, 1, 1, 1};
+  30          
+  31          void main()
+  32          {
+  33   1          uchar i = 0;
+  34   1          uchar j = 0;
+  35   1          static uchar prevkey[4][4] = {
+  36   1              1, 1, 1, 1,
+  37   1              1, 1, 1, 1,
+  38   1              1, 1, 1, 1,
+  39   1              1, 1, 1, 1};
+  40   1      
+  41   1          P0 = displayCodes[19];
+  42   1          DU = 1;
+  43   1          DU = 0;
+  44   1      
+  45   1          P0 = 0x7f;
+  46   1          WE = 1;
+  47   1          WE = 0;
+  48   1      
+  49   1          writekey1 = 0;
+  50   1          writekey2 = 1;
+  51   1          writekey3 = 1;
+  52   1          writekey4 = 1;
+  53   1      
+  54   1          //启用定时中断
+C51 COMPILER V9.60.7.0   MAIN                                                              07/13/2024 18:05:37 PAGE 2   
+
+  55   1          EA = 1;        //使能总中断
+  56   1          ET0 = 1;       //使能定时中断
+  57   1          TMOD = 0x01;   //设置定时T0为模式一
+  58   1          //装载初始化数据，定时1ms
+  59   1          TH0 = 0xfc;
+  60   1          TL0 = 0x67;
+  61   1          TR0 = 1;       //启动T0
+  62   1      
+  63   1          while(1)
+  64   1          {
+  65   2              for(i=0;i<4;i++)
+  66   2              {
+  67   3                  for(j=0;j<4;j++)
+  68   3                  {
+  69   4                      if(newkey[i][j] != prevkey[i][j])
+  70   4                      {
+  71   5                          if(newkey[i][j] == 0)
+  72   5                          {
+  73   6                              P0 = displayCodes[i*4+j];
+  74   6                              DU = 1;
+  75   6                              DU = 1;
+  76   6                          }
+  77   5                          prevkey[i][j] = newkey[i][j];
+  78   5                      }
+  79   4                  }
+  80   3              }
+  81   2          }
+  82   1      }
+  83          
+  84          void iskey() interrupt 1
+  85          {
+  86   1          static uchar keyHistory[4][4] = {
+  87   1                                              0xff, 0xff, 0xff, 0xff, 
+  88   1                                              0xff, 0xff, 0xff, 0xff,
+  89   1                                              0xff, 0xff, 0xff, 0xff,
+  90   1                                              0xff, 0xff, 0xff, 0xff
+  91   1                                          };
+  92   1          static uchar rows = 0;
+  93   1          uchar columns = 0;
+  94   1      
+  95   1          TH0 = 0xfc;
+  96   1          TL0 = 0x67;
+  97   1      
+  98   1          keyHistory[rows][0] = (keyHistory[rows][0]<<1) | readkey1;
+  99   1          keyHistory[rows][1] = (keyHistory[rows][1]<<1) | readkey2; 
+ 100   1          keyHistory[rows][2] = (keyHistory[rows][2]<<1) | readkey3; 
+ 101   1          keyHistory[rows][3] = (keyHistory[rows][3]<<1) | readkey4;
+ 102   1      
+ 103   1          for(columns = 0; columns < 4; columns++)
+ 104   1          {
+ 105   2              if((keyHistory[rows][columns] & 0x0f) == 0x00)
+ 106   2              {
+ 107   3                  newkey[rows][columns] = 0;
+ 108   3              }
+ 109   2              else if ((keyHistory[rows][columns] & 0x0f) == 0x0f)
+ 110   2              {
+ 111   3                  newkey[rows][columns] = 1;
+ 112   3              }
+ 113   2              else
+ 114   2              {
+ 115   3      
+ 116   3              }
+C51 COMPILER V9.60.7.0   MAIN                                                              07/13/2024 18:05:37 PAGE 3   
+
+ 117   2          }
+ 118   1          rows++;
+ 119   1          rows = rows & 0x03;
+ 120   1          switch(rows)
+ 121   1          {
+ 122   2              case 1: writekey1 = 1; writekey2 = 0; break;
+ 123   2              case 2: writekey2 = 1; writekey3 = 0; break;
+ 124   2              case 3: writekey3 = 1; writekey4 = 0; break;
+ 125   2              case 0: writekey4 = 1; writekey1 = 0; break;
+ 126   2          }
+ 127   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    360    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     69    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
